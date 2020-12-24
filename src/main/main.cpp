@@ -17,6 +17,9 @@
 * ============================================================ */
 #include "mainapplication.h"
 #include "proxystyle.h"
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
 
 #include <iostream>
 
@@ -65,6 +68,12 @@ int main(int argc, char* argv[])
     }
 
     MainApplication app(argc, argv);
+    QTranslator qtTranslator;
+    qtTranslator.load(QLocale::system(),"qt", "_",QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        app.installTranslator(&qtTranslator);
+    QTranslator qtBaseTranslator;
+    qtBaseTranslator.load("qtbase_" + QLocale::system().name(),QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        app.installTranslator(&qtBaseTranslator);
 
     if (app.isClosing())
         return 0;
